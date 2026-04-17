@@ -381,7 +381,7 @@ async def route_message(request: RouteRequest, http_request: Request):
 async def health_check():
     """Enhanced health check with detailed status"""
     uptime = time.time() - start_time
-    circuit_state = "closed" if circuit_breaker.closed else "open"
+    circuit_state = "closed" if circuit_breaker.state == "closed" else "open"
     
     # Check external dependencies
     dependencies = {}
@@ -396,7 +396,7 @@ async def health_check():
         dependencies["external"] = f"error: {str(e)}"
     
     if settings.METRICS_ENABLED:
-        CIRCUIT_BREAKER_STATE.set(1 if circuit_breaker.closed else 0)
+        CIRCUIT_BREAKER_STATE.set(1 if circuit_breaker.state == "open" else 0)
     
     return HealthResponse(
         status="healthy",
