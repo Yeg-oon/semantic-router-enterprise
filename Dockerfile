@@ -14,7 +14,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
-COPY main.py config.py .env ./
+COPY main.py config.py .env.example ./
 
 # Expose the port (Render uses $PORT)
 EXPOSE 10000
