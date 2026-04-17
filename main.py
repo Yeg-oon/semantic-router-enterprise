@@ -195,6 +195,22 @@ app = FastAPI(
     docs_url="/docs" if settings.LOG_LEVEL == "DEBUG" else None
 )
 
+@app.get("/")
+async def root():
+    """Root endpoint with API information"""
+    return {
+        "name": "Enterprise Semantic Router",
+        "version": "2.0.0",
+        "status": "operational",
+        "endpoints": {
+            "health": "/health",
+            "metrics": "/metrics", 
+            "route": "/v1/route"
+        },
+        "docs": "/docs" if settings.LOG_LEVEL == "DEBUG" else "Disabled",
+        "live_demo": "https://semantic-router-enterprise.onrender.com"
+    }
+
 # --- MIDDLEWARE SETUP ---
 app.add_middleware(
     CORSMiddleware,
